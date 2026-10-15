@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_pesan_masuk"
+        android:icon="@android:drawable/ic_dialog_email"
+        app:iconTint="@color/white"
+        android:title="Pesan masuk"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_muat_ulang"
+        android:title="Muat ulang data"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_keluar"
+        android:title="Keluar"
+        app:showAsAction="never" />
+
+</menu>

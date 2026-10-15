@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="14dp"
+    app:cardElevation="2dp"
+    android:layout_marginBottom="4dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tvNoUrut"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="@drawable/bg_circle_blue"
+                android:gravity="center"
+                android:text="1"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginStart="12dp">
+
+                <TextView
+                    android:id="@+id/tvNamaCustomer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nama Customer"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="#2D3436" />
+
+                <TextView
+                    android:id="@+id/tvNamaPesanan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pesanan: 2 Galon Aqua"
+                    android:textSize="13sp"
+                    android:textColor="#636E72" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnTerima"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:text="Terima"
+                android:textSize="11sp"
+                android:backgroundTint="#0984E3"
+                app:cornerRadius="20dp" />
+
+            <TextView
+                android:id="@+id/tvDiproses"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Diproses"
+                android:textColor="#00B894"
+                android:textStyle="bold"
+                android:textSize="12sp"
+                android:background="#E8FBF5"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="4dp"
+                android:visibility="gone" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

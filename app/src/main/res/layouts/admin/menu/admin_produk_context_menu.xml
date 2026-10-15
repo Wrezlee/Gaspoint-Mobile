@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/ctx_edit_produk"
+        android:title="Edit produk" />
+
+    <item
+        android:id="@+id/ctx_tambah_stok"
+        android:title="Tambah stok" />
+
+    <item
+        android:id="@+id/ctx_hapus_produk"
+        android:title="Hapus produk" />
+
+</menu>

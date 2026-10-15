@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/popup_detail"
+        android:title="Lihat detail" />
+
+    <item
+        android:id="@+id/popup_ubah_status"
+        android:title="Ubah status" />
+
+    <item
+        android:id="@+id/popup_maps"
+        android:title="Buka di Maps" />
+
+    <item
+        android:id="@+id/popup_hapus"
+        android:title="Hapus transaksi" />
+
+</menu>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_light"
+    android:orientation="vertical"
+    android:padding="12dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Input Pesanan Baru"
+        android:textColor="@color/primary"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/edt_search_produk"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:hint="Cari produk..."
+        android:inputType="text"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textColorHint="@color/text_muted" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_produk"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:paddingBottom="8dp" />
+
+    <TextView
+        android:id="@+id/tv_total_transaksi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Total: Rp 0"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginTop="6dp" />
+
+    <Button
+        android:id="@+id/btn_simpan_transaksi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Simpan Transaksi"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/primary"
+        android:layout_marginTop="8dp" />
+
+</LinearLayout>

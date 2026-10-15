@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/ctx_detail_user"
+        android:title="Lihat detail" />
+
+    <item
+        android:id="@+id/ctx_edit_user"
+        android:title="Edit user" />
+
+    <item
+        android:id="@+id/ctx_hapus_user"
+        android:title="Hapus user" />
+
+</menu>

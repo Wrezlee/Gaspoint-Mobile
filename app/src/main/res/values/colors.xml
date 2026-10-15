@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="primary">#00BFA5</color>
+    <color name="primary_dark">#008E76</color>
+
+    <color name="accent">#FFD600</color>
+
+    <color name="bg_light">#F5F5F5</color>
+
+    <color name="text_dark">#212121</color>
+    <color name="text_muted">#757575</color>
+
+    <!-- TAMBAHAN -->
+    <color name="gray">#777777</color>
+
+</resources>

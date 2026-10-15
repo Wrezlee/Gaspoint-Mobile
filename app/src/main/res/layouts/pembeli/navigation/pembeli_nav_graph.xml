@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/pembeli_nav_graph"
+    app:startDestination="@id/navigation_pembeli_home">
+
+    <fragment
+        android:id="@+id/navigation_pembeli_home"
+        android:name="pmluts_gaspoint.pembeli.PembeliHomeFragment"
+        android:label="Beranda"
+        tools:layout="@layout/fragment_pembeli_home" />
+
+    <fragment
+        android:id="@+id/navigation_pembeli_orders"
+        android:name="pmluts_gaspoint.pembeli.PembeliOrdersFragment"
+        android:label="Pesanan Saya"
+        tools:layout="@layout/fragment_pembeli_orders" />
+
+    <fragment
+        android:id="@+id/navigation_pembeli_profile"
+        android:name="pmluts_gaspoint.common.ProfileFragment"
+        android:label="Profil"
+        tools:layout="@layout/fragment_profile" />
+
+    <fragment
+        android:id="@+id/navigation_pembeli_pesan"
+        android:name="pmluts_gaspoint.pembeli.PembeliPesanFragment"
+        android:label="Pesan Sekarang"
+        tools:layout="@layout/fragment_pembeli_pesan" />
+
+    <fragment
+        android:id="@+id/navigation_pembeli_alamat"
+        android:name="pmluts_gaspoint.pembeli.PembeliAlamatFragment"
+        android:label="Alamat Saya"
+        tools:layout="@layout/fragment_pembeli_alamat" />
+
+    <fragment
+        android:id="@+id/navigation_pembeli_edit_profile"
+        android:name="pmluts_gaspoint.pembeli.PembeliEditProfileFragment"
+        android:label="Ubah Profil"
+        tools:layout="@layout/fragment_pembeli_edit_profile" />
+
+</navigation>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/kurir_nav_graph"
+    app:startDestination="@id/navigation_kurir_home">
+
+    <fragment
+        android:id="@+id/navigation_kurir_home"
+        android:name="pmluts_gaspoint.kurir.KurirHomeFragment"
+        android:label="Tugas"
+        tools:layout="@layout/fragment_kurir" />
+
+    <fragment
+        android:id="@+id/navigation_kurir_antrian"
+        android:name="pmluts_gaspoint.kurir.KurirAntrianFragment"
+        android:label="Antrian"
+        tools:layout="@layout/fragment_kurir_antrian" />
+
+    <fragment
+        android:id="@+id/navigation_kurir_history"
+        android:name="pmluts_gaspoint.common.HistoryFragment"
+        android:label="Riwayat"
+        tools:layout="@layout/fragment_history" />
+
+    <fragment
+        android:id="@+id/navigation_kurir_profile"
+        android:name="pmluts_gaspoint.common.ProfileFragment"
+        android:label="Profil"
+        tools:layout="@layout/fragment_profile" />
+</navigation>

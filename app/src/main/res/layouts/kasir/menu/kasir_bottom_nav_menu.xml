@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_kasir_home"
+        android:icon="@drawable/ic_orders"
+        android:title="Transaksi" />
+
+    <item
+        android:id="@+id/navigation_kasir_stok"
+        android:icon="@drawable/ic_stock"
+        android:title="Stok" />
+
+    <item
+        android:id="@+id/navigation_kasir_profile"
+        android:icon="@drawable/ic_profile"
+        android:title="Profil" />
+
+</menu>

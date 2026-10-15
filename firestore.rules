@@ -1,0 +1,328 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function userDoc() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+
+    function hasRole(role) {
+      return signedIn() && userDoc().role == role;
+    }
+
+    function isAdmin() {
+      return hasRole('Admin');
+    }
+
+    function isBuyer() {
+      return hasRole('Pembeli');
+    }
+
+    function isCourier() {
+      return hasRole('Kurir');
+    }
+
+    function isCashier() {
+      return hasRole('Kasir');
+    }
+
+    function courierOwnsOrder() {
+      return isCourier() && resource.data.kurir_username == userDoc().username;
+    }
+
+    function buyerOwnsOrder() {
+      return isBuyer() && resource.data.pembeli == userDoc().username;
+    }
+
+    function courierCanUpdateOrder() {
+      return courierOwnsOrder()
+        && (
+          (
+            resource.data.status == 'Ditugaskan'
+            && request.resource.data.status == 'Dikirim'
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status'])
+          )
+          ||
+          (
+            resource.data.status == 'Dikirim'
+            && request.resource.data.status == 'Menunggu Konfirmasi Selesai'
+            && request.resource.data.bukti_pengantaran is string
+            && request.resource.data.bukti_pengantaran.size() > 0
+            && request.resource.data.diff(resource.data).affectedKeys()
+              .hasOnly(['status', 'bukti_pengantaran'])
+          )
+          ||
+          (
+            // Konfirmasi lewat scan QR penerima
+            resource.data.status in ['Dikirim', 'Menunggu Konfirmasi Selesai']
+            && request.resource.data.status == 'Selesai'
+            && request.resource.data.konfirmasi_qr == true
+            && request.resource.data.diff(resource.data).affectedKeys()
+              .hasOnly(['status', 'konfirmasi_qr'])
+          )
+        );
+    }
+
+    function buyerRestockMatchesCancellation(productId) {
+      let orderId = request.resource.data.cancel_order_id;
+      let orderPath = /databases/$(database)/documents/transaksi/$(orderId);
+      let beforeOrder = get(orderPath).data;
+      let afterOrder = getAfter(orderPath).data;
+      let orderLine = afterOrder.items_by_product[productId];
+      return isBuyer()
+        && orderId is string
+        && beforeOrder.pembeli == userDoc().username
+        && beforeOrder.status in ['Menunggu Validasi', 'Diproses']
+        && afterOrder.status == 'Dibatalkan'
+        && orderLine.quantity is int
+        && orderLine.quantity > 0
+        && request.resource.data.stok == resource.data.stok + orderLine.quantity
+        && request.resource.data.diff(resource.data).affectedKeys()
+          .hasOnly(['stok', 'cancel_order_id']);
+    }
+
+    function reservationMatchesOrder(orderId, productId, items) {
+      let productPath = /databases/$(database)/documents/produk/$(productId);
+      let updatedProduct = getAfter(productPath).data;
+      let orderLine = items[productId];
+      return existsAfter(productPath)
+        && updatedProduct.reserve_order_id == orderId
+        && orderLine.quantity is int
+        && orderLine.quantity > 0;
+    }
+
+    function restockMatchesOrder(orderId, productId, items) {
+      let productPath = /databases/$(database)/documents/produk/$(productId);
+      let currentProduct = get(productPath).data;
+      let updatedProduct = getAfter(productPath).data;
+      let orderLine = items[productId];
+      return exists(productPath)
+        && existsAfter(productPath)
+        && updatedProduct.cancel_order_id == orderId
+        && orderLine.quantity is int
+        && orderLine.quantity > 0
+        && updatedProduct.stok == currentProduct.stok + orderLine.quantity;
+    }
+
+    function allItemsRestocked(orderId, items) {
+      let productIds = items.keys();
+      return productIds.size() > 0
+        && productIds.size() <= 8
+        && restockMatchesOrder(orderId, productIds[0], items)
+        && (
+          productIds.size() < 2
+          || restockMatchesOrder(orderId, productIds[1], items)
+        )
+        && (
+          productIds.size() < 3
+          || restockMatchesOrder(orderId, productIds[2], items)
+        )
+        && (
+          productIds.size() < 4
+          || restockMatchesOrder(orderId, productIds[3], items)
+        )
+        && (
+          productIds.size() < 5
+          || restockMatchesOrder(orderId, productIds[4], items)
+        )
+        && (
+          productIds.size() < 6
+          || restockMatchesOrder(orderId, productIds[5], items)
+        )
+        && (
+          productIds.size() < 7
+          || restockMatchesOrder(orderId, productIds[6], items)
+        )
+        && (
+          productIds.size() < 8
+          || restockMatchesOrder(orderId, productIds[7], items)
+        );
+    }
+
+    function allItemsReserved(orderId, items) {
+      let productIds = items.keys();
+      return productIds.size() > 0
+        && productIds.size() <= 8
+        && reservationMatchesOrder(orderId, productIds[0], items)
+        && (
+          productIds.size() < 2
+          || reservationMatchesOrder(orderId, productIds[1], items)
+        )
+        && (
+          productIds.size() < 3
+          || reservationMatchesOrder(orderId, productIds[2], items)
+        )
+        && (
+          productIds.size() < 4
+          || reservationMatchesOrder(orderId, productIds[3], items)
+        )
+        && (
+          productIds.size() < 5
+          || reservationMatchesOrder(orderId, productIds[4], items)
+        )
+        && (
+          productIds.size() < 6
+          || reservationMatchesOrder(orderId, productIds[5], items)
+        )
+        && (
+          productIds.size() < 7
+          || reservationMatchesOrder(orderId, productIds[6], items)
+        )
+        && (
+          productIds.size() < 8
+          || reservationMatchesOrder(orderId, productIds[7], items)
+        )
+        && (
+          productIds.size() < 8
+          || reservationMatchesOrder(orderId, productIds[7], items)
+        );
+    }
+
+    function buyerCanCancelOrder(orderId) {
+      return buyerOwnsOrder()
+        && resource.data.status in ['Menunggu Validasi', 'Diproses']
+        && request.resource.data.status == 'Dibatalkan'
+        && request.resource.data.diff(resource.data).affectedKeys()
+          .hasOnly(['status', 'dibatalkan_pada'])
+        && request.resource.data.items_by_product is map
+        && allItemsRestocked(orderId, request.resource.data.items_by_product);
+    }
+
+    match /users/{uid} {
+      allow read: if signedIn() && (request.auth.uid == uid || isAdmin());
+      allow create: if signedIn()
+        && request.auth.uid == uid
+        && request.resource.data.role == 'Pembeli'
+        && request.resource.data.kurir_aktif == false;
+      allow update: if isAdmin()
+        || (
+          signedIn()
+          && request.auth.uid == uid
+          && resource.data.role == 'Kurir'
+          && request.resource.data.role == resource.data.role
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['kurir_aktif'])
+        )
+        || (
+          signedIn()
+          && request.auth.uid == uid
+          && request.resource.data.role == resource.data.role
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['full_name'])
+        );
+      allow delete: if isAdmin();
+    }
+
+    match /usernames/{username} {
+      allow read: if true;
+      allow create: if signedIn()
+        && getAfter(/databases/$(database)/documents/users/$(request.auth.uid)).data.username == username
+        && getAfter(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'Pembeli';
+      allow update: if false;
+      // Admin boleh melepas username saat menghapus user
+      allow delete: if isAdmin();
+    }
+
+    match /produk/{id} {
+      allow read: if signedIn();
+      // Admin dan Kasir boleh mengelola produk (tambah, edit, hapus)
+      allow create, delete: if isAdmin() || isCashier();
+      allow update: if isAdmin()
+        || isCashier()
+        || (
+          isBuyer()
+          && request.resource.data.diff(resource.data).affectedKeys()
+            .hasOnly(['stok', 'reserve_order_id'])
+          && request.resource.data.stok >= 0
+          && request.resource.data.stok < resource.data.stok
+          && request.resource.data.reserve_order_id is string
+          && existsAfter(
+            /databases/$(database)/documents/transaksi/$(request.resource.data.reserve_order_id)
+          )
+          && getAfter(
+            /databases/$(database)/documents/transaksi/$(request.resource.data.reserve_order_id)
+          ).data.pembeli == userDoc().username
+          && getAfter(
+            /databases/$(database)/documents/transaksi/$(request.resource.data.reserve_order_id)
+          ).data.items_by_product[id].quantity
+            == resource.data.stok - request.resource.data.stok
+        )
+        || buyerRestockMatchesCancellation(id);
+    }
+
+    match /transaksi/{id} {
+      allow read: if isAdmin()
+        || isCashier()
+        || buyerOwnsOrder()
+        || courierOwnsOrder();
+      allow create: if (
+          isBuyer()
+          && request.resource.data.pembeli == userDoc().username
+          && request.resource.data.status in ['Menunggu Validasi', 'Diproses']
+          && request.resource.data.items is list
+          && request.resource.data.items.size() > 0
+          && request.resource.data.items_by_product is map
+          && allItemsReserved(id, request.resource.data.items_by_product)
+          && request.resource.data.metode_pembayaran in ['COD', 'QRIS']
+          && (
+            request.resource.data.metode_pembayaran == 'COD'
+            || (
+              request.resource.data.bukti_pembayaran is string
+              && request.resource.data.bukti_pembayaran.size() > 0
+            )
+          )
+          && request.resource.data.kurir_username == ''
+        )
+        || (
+          isCashier()
+          && request.resource.data.pembeli == 'Offline (Kasir)'
+          && request.resource.data.status == 'Selesai'
+        );
+      allow update: if isAdmin()
+        || buyerCanCancelOrder(id)
+        || courierCanUpdateOrder();
+      allow delete: if isAdmin();
+    }
+
+    match /alamat/{id} {
+      allow read: if isAdmin()
+        || (isBuyer() && resource.data.username == userDoc().username);
+      allow create: if isBuyer()
+        && request.resource.data.username == userDoc().username;
+      allow update: if isBuyer()
+        && resource.data.username == userDoc().username
+        && request.resource.data.username == resource.data.username;
+      allow delete: if isAdmin()
+        || (isBuyer() && resource.data.username == userDoc().username);
+    }
+
+    match /counters/{name} {
+      allow read: if signedIn();
+      allow create: if isAdmin()
+        || (
+          signedIn()
+          && request.resource.data.value == 1
+          && name in ['alamat', 'transaksi']
+        )
+        || (
+          isCashier()
+          && request.resource.data.value == 1
+          && name == 'produk'
+        );
+      allow update: if isAdmin()
+        || (
+          signedIn()
+          && name in ['alamat', 'transaksi']
+          && request.resource.data.value == resource.data.value + 1
+        )
+        || (
+          isCashier()
+          && name == 'produk'
+          && request.resource.data.value == resource.data.value + 1
+        );
+      allow delete: if isAdmin();
+    }
+  }
+}

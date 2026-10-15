@@ -1,0 +1,106 @@
+{
+  "project_info": {
+    "project_number": "986594497318",
+    "firebase_url": "https://pemrograman-mobile-lanju-7a3b4-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "pemrograman-mobile-lanju-7a3b4",
+    "storage_bucket": "pemrograman-mobile-lanju-7a3b4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:986594497318:android:3d0fd5de34af9686a0e7e7",
+        "android_client_info": {
+          "package_name": "com.putra.yanuar.pml02"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARx2jp3WCL1DUN4iNwC-eIGqxbeyycJbY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:986594497318:android:18f9b57bd4e963f5a0e7e7",
+        "android_client_info": {
+          "package_name": "maharani.devie.projectuas"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARx2jp3WCL1DUN4iNwC-eIGqxbeyycJbY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:986594497318:android:109d11407eba3ddaa0e7e7",
+        "android_client_info": {
+          "package_name": "putra.yanuar.pml03"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARx2jp3WCL1DUN4iNwC-eIGqxbeyycJbY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:986594497318:android:201865c02d59a8a7a0e7e7",
+        "android_client_info": {
+          "package_name": "putra.yanuar.pml04"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARx2jp3WCL1DUN4iNwC-eIGqxbeyycJbY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:986594497318:android:50e0d611ebfc7c06a0e7e7",
+        "android_client_info": {
+          "package_name": "putra.yanuar.pml05"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARx2jp3WCL1DUN4iNwC-eIGqxbeyycJbY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

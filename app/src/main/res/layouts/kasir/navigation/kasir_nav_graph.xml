@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/kasir_nav_graph"
+    app:startDestination="@id/navigation_kasir_home">
+
+    <!-- HALAMAN TRANSAKSI -->
+    <fragment
+        android:id="@+id/navigation_kasir_home"
+        android:name="pmluts_gaspoint.kasir.KasirHomeFragment"
+        android:label="Transaksi"
+        tools:layout="@layout/fragment_home" />
+
+    <!-- HALAMAN STOK -->
+    <fragment
+        android:id="@+id/navigation_kasir_stok"
+        android:name="pmluts_gaspoint.admin.AdminStockFragment"
+        android:label="Stok"
+        tools:layout="@layout/fragment_admin_stock" />
+
+    <!-- HALAMAN PROFIL -->
+    <fragment
+        android:id="@+id/navigation_kasir_profile"
+        android:name="pmluts_gaspoint.common.ProfileFragment"
+        android:label="Profil"
+        tools:layout="@layout/fragment_profile" />
+
+</navigation>
