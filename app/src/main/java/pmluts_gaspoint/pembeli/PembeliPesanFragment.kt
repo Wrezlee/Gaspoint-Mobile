@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import pmluts_gaspoint.R
 import pmluts_gaspoint.common.FirestoreRepository
+import pmluts_gaspoint.common.ProdukSuggestHelper
 import pmluts_gaspoint.databinding.FragmentPembeliPesanBinding
 import pmluts_gaspoint.kasir.ProdukKasir
 import pmluts_gaspoint.kasir.ProdukKasirAdapter
@@ -34,6 +35,7 @@ class PembeliPesanFragment : Fragment(R.layout.fragment_pembeli_pesan) {
 
     private val listProduk = ArrayList<ProdukKasir>()
     private val listFilter = ArrayList<ProdukKasir>()
+    private var suggestAdapter: ProdukSuggestHelper.SuggestAdapter? = null
 
     private var selectedAlamat = ""
     // Koordinat tiap alamat (kunci: teks yang tampil di dropdown)
@@ -253,6 +255,7 @@ class PembeliPesanFragment : Fragment(R.layout.fragment_pembeli_pesan) {
 
             cursor.close()
 
+            suggestAdapter?.setSemua(listProduk.map { it.nama })
             refreshFilter()
             updateTotal()
         }
@@ -293,6 +296,12 @@ class PembeliPesanFragment : Fragment(R.layout.fragment_pembeli_pesan) {
     }
 
     private fun setupSearch() {
+        // AutoComplete: saran nama produk (mis. ketik "gal" -> "Galon Aqua 15L")
+        suggestAdapter = ProdukSuggestHelper.pasang(requireContext(), binding.etSearchProduk) {
+            refreshFilter()
+        }
+        suggestAdapter?.setSemua(listProduk.map { it.nama })
+
         binding.etSearchProduk.addTextChangedListener {
             refreshFilter()
         }

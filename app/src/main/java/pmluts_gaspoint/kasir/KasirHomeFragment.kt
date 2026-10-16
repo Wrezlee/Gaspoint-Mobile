@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.card.MaterialCardView
 import pmluts_gaspoint.R
 import pmluts_gaspoint.common.FirestoreRepository
+import pmluts_gaspoint.common.ProdukSuggestHelper
 import pmluts_gaspoint.databinding.FragmentHomeBinding
 import java.io.File
 import java.util.Locale
@@ -38,6 +39,7 @@ class KasirHomeFragment : Fragment() {
 
     private val listProduk = ArrayList<ProdukKasir>()
     private val listFilter = ArrayList<ProdukKasir>()
+    private var suggestAdapter: ProdukSuggestHelper.SuggestAdapter? = null
 
     private var hasUploadedProof = false
     private var buktiUri: Uri? = null
@@ -180,6 +182,7 @@ class KasirHomeFragment : Fragment() {
 
             cursor.close()
 
+            suggestAdapter?.setSemua(listProduk.map { it.nama })
             refreshFilter()
             updateTotal()
         }
@@ -197,6 +200,12 @@ class KasirHomeFragment : Fragment() {
     }
 
     private fun setupSearch() {
+        // AutoComplete: saran nama produk (mis. ketik "gal" -> "Galon Aqua 15L")
+        suggestAdapter = ProdukSuggestHelper.pasang(requireContext(), binding.etSearchProduk) {
+            refreshFilter()
+        }
+        suggestAdapter?.setSemua(listProduk.map { it.nama })
+
         binding.etSearchProduk.addTextChangedListener {
             refreshFilter()
         }
@@ -792,7 +801,7 @@ class KasirHomeFragment : Fragment() {
         binding.layoutQrisPayment.visibility = View.GONE
         binding.cardCheckout.visibility = View.GONE
         binding.btnLanjut.visibility = View.VISIBLE
-        binding.etSearchProduk.setText("")
+        binding.etSearchProduk.setText("", false)
     }
 
     private fun dp(value: Int): Int {

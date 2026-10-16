@@ -28,16 +28,21 @@
             android:textColor="@color/text_muted"
             android:textSize="14sp" />
 
-        <EditText
+        <AutoCompleteTextView
             android:id="@+id/et_search_produk"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginTop="12dp"
             android:background="@color/white"
+            android:completionThreshold="1"
+            android:dropDownHeight="wrap_content"
+            android:dropDownVerticalOffset="2dp"
             android:hint="Cari produk..."
+            android:imeOptions="actionSearch"
             android:inputType="text"
             android:paddingStart="14dp"
             android:paddingEnd="14dp"
+            android:popupBackground="@color/white"
             android:singleLine="true"
             android:textColor="@color/black"
             android:textColorHint="@color/text_muted" />
